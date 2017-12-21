@@ -38,6 +38,7 @@
 				if ($(this).hasClass('mg-multi-dropdown')) return;
                 $(this).addClass('mg-multi-dropdown');
 				
+				var $dropDownObj = $(this);
 				//Parse Data from Object to self-defnied structure
                 if(settings.domDriven){
 					var newDataObj = [];
@@ -62,10 +63,11 @@
 						
 					}
                     settings.data = newDataObj;
-                    $(this).replaceWith('<input class="mg-multi-dropdown"/>');
+					$dropDownObj = $(this).replaceWithPush('<input class="mg-multi-dropdown"/>');
 				}
 				
-				var $dropDownObj = $(this);
+				$($dropDownObj).wrapAll('<div class="mg-multi-holder">');
+				$('<div class="mg-multi-dropdown-button">▼</div>').insertAfter($dropDownObj);
                 // TO-DO: Functionality
 				
 				var isTouch = isTouchDevice();
@@ -103,6 +105,13 @@
 		} else {
 			$.error( 'Method ' +  method + ' does not exist on jQuery.multicolumn-dropdown' );
 		}
+	};
+
+	$.fn.replaceWithPush = function(a) {
+		var $a = $(a);
+	
+		this.replaceWith($a);
+		return $a;
 	};
 })( jQuery );
 
